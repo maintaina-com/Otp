@@ -12,9 +12,11 @@ use \Horde\Otp\FileStorage;
 class FileStorageTest extends TestCase
 {
     private FileStorage $storage;
+    private string $workDir;
     public function setUp(): void
     {
-        $this->storage = new FileStorage(__DIR__. '/workdir');
+        $this->workDir = __DIR__. '/workdir';
+        $this->storage = new FileStorage($this->workDir);
     }
     public function testFileStorage()
     {
@@ -24,9 +26,40 @@ class FileStorageTest extends TestCase
     {
         $setup = json_encode(['key' => 'value']);
         $this->storage->saveSetup('user1', 'login', $setup);
-        $this->assertFileExists(__DIR__ . '/workdir/otp-dXNlcjFsb2dpbg==.json');
+        $this->assertFileExists($this->workDir . '/otp-dXNlcjFsb2dpbg==.json');
         $retrievedSetup = json_decode($this->storage->getSetup('user1', 'login'));
         $this->assertIsObject($retrievedSetup);
         $this->assertObjectHasAttribute('key', $retrievedSetup);
+    }
+
+    public function testSaveAndRetrieveMultiple()
+    {
+        $setups = [
+            'user1' => [
+                'scope1' => json_encode(['key' => 'value', 'scope' => 'scope1']),
+                'scopeLogin' => json_encode(['driver' => 'totp', 'scope' => 'scopeLogin'])
+            ],
+            'user2' => [
+                'Billing' => json_encode(['algorithm' => 'sha1', 'scope' => 'Billing'])
+            ]
+        ];
+        foreach ($setups as $subject => $data)
+        {
+            foreach ($data as $scope => $json) {
+                $this->storage->saveSetup($subject, $scope, $json);
+            }
+        }
+
+        foreach ($setups as $subject => $data)
+        {
+            foreach ($data as $scope => $json) {
+                $retrieved = json_decode($this->storage->getSetup($subject, $scope));
+                $this->assertEquals($scope, $retrieved->scope);
+            }
+        }
+    }
+    public function tearDown(): void
+    {
+       array_map('unlink', glob($this->workDir . '/*.json'));
     }
 }
