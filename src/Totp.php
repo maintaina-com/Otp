@@ -20,7 +20,7 @@ use \Horde_Date;
  *
  * 
  */
-class Totp implements OtpType, JsonSerializable
+class Totp implements OtpType
 {
     use OtpCalculationTrait;
     private string $secret;
@@ -51,7 +51,7 @@ class Totp implements OtpType, JsonSerializable
         return 'TOTP: Time-Based One-Time Password Algorithm';
     }
 
-    public function jsonSerializable()
+    public function jsonSerialize()
     {
         return [
             'secret' => $this->secret,
@@ -63,16 +63,21 @@ class Totp implements OtpType, JsonSerializable
         ];
     }
 
-    public static function fromJson(string $json)
+    public static function fromJson(string $json): self
     {
         $params = json_decode($json);
+        return self::fromParams($params);
+    }
+
+    public static function fromParams(object $params): self
+    {
         return new self(
-            $params->secret, 
-            $params->algorithm, 
+            $params->secret,
+            $params->algorithm,
             (int) $params->digits,
             (int) $params->startTime,
             (int) $params->window,
-            (int) $params->grace          
+            (int) $params->grace
         );
     }
 }

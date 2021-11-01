@@ -32,4 +32,20 @@ class StaticSecret implements OtpType
         // TODO: Translation
         return 'Static global secret';
     }
+
+    public function jsonSerialize()
+    {
+        return [];
+    }
+    public static function fromJson(string $json): self
+    {
+        $params = json_decode($json);
+        return self::fromParams($params);
+    }
+
+    public static function fromParams(object $params): self
+    {
+        return new self;
+    }
+
 }

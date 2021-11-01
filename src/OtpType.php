@@ -13,11 +13,13 @@
 declare(strict_types=1);
 namespace Horde\Otp;
 use Horde_Date;
+use JsonSerializable;
+
 /**
  * Interface of an OTP Type Definition
  * 
  */
-interface OtpType
+interface OtpType extends JsonSerializable
 {
     /**
      * A human readable name
@@ -25,4 +27,21 @@ interface OtpType
      * @return string
      */
     public static function name(): string;
+ 
+    /**
+     * Construct from a JSON string with parameters
+     *
+     * @param string $json
+     * @return self
+     */
+    public static function fromJson(string $json): self;
+
+    /**
+     * Construct from a plain object with parameters
+     *
+     * @param object $params
+     * @return void
+     */
+    public static function fromParams(object $params): self;
+
 }

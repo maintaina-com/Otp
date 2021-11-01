@@ -29,4 +29,23 @@ class Hotp implements OtpType
         // TODO: Translation
         return 'HOTP: HMAC-Based One-Time Password Algorithm';
     }
+
+    public function jsonSerialize()
+    {
+        return [];
+    }
+    public static function fromJson(string $json): self
+    {
+        $params = json_decode($json);
+        return self::fromParams($params);
+    }
+
+    public static function fromParams(object $params): self
+    {
+        return new self(
+            $params->secret, 
+            $params->algorithm, 
+            (int) $params->digits,
+        );
+    }
 }
