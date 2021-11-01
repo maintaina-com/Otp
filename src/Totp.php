@@ -20,7 +20,7 @@ use \Horde_Date;
  *
  * 
  */
-class Totp implements OtpType
+class Totp implements OtpType, JsonSerializable
 {
     use OtpCalculationTrait;
     private string $secret;
@@ -28,7 +28,7 @@ class Totp implements OtpType
     private int $digits;
     const SUPPORTED_ALGORITHMS = ['sha1', 'sha256', 'sha512'];
 
-    public function __construct(string $algorithm, int $digits, int $startTime, int $window, int $grace)
+    public function __construct(string $secret, string $algorithm, int $digits, int $startTime, int $window, int $grace)
     {
         if (!in_array($algorithm, self::SUPPORTED_ALGORITHMS)) {
             throw new InvalidArgumentException("Invalid Algorithm: $algorithm");
@@ -51,4 +51,28 @@ class Totp implements OtpType
         return 'TOTP: Time-Based One-Time Password Algorithm';
     }
 
+    public function jsonSerializable()
+    {
+        return [
+            'secret' => $this->secret,
+            'grace' => $this->grace,
+            'digits' => $this->digits,
+            'algorithm' => $this->algorithm,
+            'startTime' => $this->startTime,
+            'window' => $this->window
+        ];
+    }
+
+    public static function fromJson(string $json)
+    {
+        $params = json_decode($json);
+        return new self(
+            $params->secret, 
+            $params->algorithm, 
+            (int) $params->digits,
+            (int) $params->startTime,
+            (int) $params->window,
+            (int) $params->grace          
+        );
+    }
 }

@@ -39,14 +39,6 @@ trait OtpCalculationTrait
         return $secret;
     }
 
-    public function generateRandomSecret(int $length = 8): string
-    {
-        if ($length % 8 !== 0) {
-            throw new InvalidArgumentException('Secret length must be multiple of 8');
-        }
-        return random_bytes($length);
-    }
-
     public function generateHotp(string $secret, int $count, int $length = 6): string
     {
         $packedString = $this->packCounter($count);
