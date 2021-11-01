@@ -1,0 +1,5 @@
+---
+1.0.0alpha1:
+  notes: |
+    [rla] Use spomkylabs OTP library and chillerlan QR code library for now.
+    [rla] Initial release.

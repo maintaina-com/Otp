@@ -1,0 +1,44 @@
+---
+id: Otp
+name: Otp
+full: >-
+  One Time Password provider library
+description: >-
+  This library provides One Time Password functionality for Horde with an initial focus on TOTP.
+list: dev
+type: library
+homepage: https://www.horde.org/libraries/Horde_Otp
+authors:
+  -
+    name: Ralf Lang
+    user: rlang
+    email: lang@b1-systems.de
+    active: true
+    role: lead
+version:
+  release: 1.0.0alpha1
+  api: 1.0.0alpha1
+state:
+  release: alpha
+  api: alpha
+license:
+  identifier: LGPL
+  uri: http://www.horde.org/licenses/lgpl
+dependencies:
+  required:
+    php: ^7.4 || ^8
+    composer:
+      horde/exception: ^3
+      horde/date: ^3
+      chillerlan/php-qrcode: ^4
+    ext:
+      mbstring: '*'
+  optional:
+    ext:
+      mbstring: '*'
+      zlib: '*'
+      gd: '*'
+      
+  dev:
+    composer:
+      horde/test: ^3

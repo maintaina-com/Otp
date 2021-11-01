@@ -1,0 +1,31 @@
+.DS_Store
+.buildpath
+.cache
+.phpunit.cache/
+composer.lock
+.project
+.settings
+nbproject/
+*~
+.#*
+*.bak
+*.orig
+*.rej
+*.swp
+*.kdev4
+.kdev4/*
+
+# Ignore ALL config files
+conf.php
+
+# Ignore testing files
+run-tests.log
+/test/*/*/*.diff
+/test/*/*/*.exp
+/test/*/*/*.log
+/test/*/*/*.out
+/test/*/*/*/*.diff
+/test/*/*/*/*.exp
+/test/*/*/*/*.log
+/test/*/*/*/*.out
+

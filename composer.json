@@ -1,0 +1,46 @@
+{
+    "name": "horde/otp",
+    "description": "One Time Password provider library",
+    "type": "library",
+    "homepage": "https://www.horde.org/libraries/Horde_Otp",
+    "license": "LGPL",
+    "authors": [
+        {
+            "name": "Ralf Lang",
+            "email": "lang@b1-systems.de",
+            "role": "lead"
+        }
+    ],
+    "time": "2021-11-01",
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://horde-satis.maintaina.com/"
+        }
+    ],
+    "require": {
+        "php": "^7.4 || ^8",
+        "horde/exception": "^3",
+        "horde/date": "^3",
+        "chillerlan/php-qrcode": "^4",
+        "ext-mbstring": "*"
+    },
+    "require-dev": {
+        "horde/test": "^3"
+    },
+    "suggest": {
+        "ext-mbstring": "*",
+        "ext-zlib": "*",
+        "ext-gd": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "Horde\\Otp\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Horde\\Otp\\Test\\": "test/"
+        }
+    }
+}
